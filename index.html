@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="../build/react.js"></script>
+    <script src="../build/react-dom.js"></script>
+    <script src="../build/browser.min.js"></script>
+    <script src="../build/jquery.min.js"></script>
+
+
+</head>
+<body>
+
+<div id="example"></div>
+<script type="text/babel">
+
+
+    var Hellow = React.createClass({
+
+        render: function () {
+            return (<h1>这个时候我的</h1>)
+        }
+    })
+
+
+    //state  用于定时器
+
+    ReactDOM.render(<Hellow/>, document.getElementById('example'));
+
+
+    var Timer = React.createClass({
+        //初始化
+        getInitialState: function () {
+            return {secondsEoapsed: 0}
+        },
+
+        tick: function () {
+            this.setState({secondsEoapsed: this.state.secondsEoapsed + 1})
+        },
+        // //当插入真实的DOM的时候  之后  进行的操作
+        componentDidMount: function () {
+            //定时器
+            this.interval = setInterval(this.tick, 1000)
+        },
+        componentWillUnmount: function () {
+            clearInterval(this.interval)
+        },
+        //渲染定时器
+        render: function () {
+            return (<div>时间开始变化{this.state.secondsEoapsed}</div>)
+        }
+    })
+
+    ReactDOM.render(<Timer/>, document.getElementById('example'));
+
+
+    /**
+     * 自定义组件
+     */
+
+    var ShowEdior = React.createClass({
+        getInitialState: function () {
+            return {value: "你可以在这里输入文字"}
+        },
+        //更新你的改变
+        hanldeChange: function () {
+
+            return this.setState({value: ReactDOM.findDOMNode(this.refs.textarea).value});
+        },
+        render: function () {
+            return (
+                    <div>
+                        <h1>输入</h1>
+                        <textarea style={{width: 300, height: 150}}
+                                  onChange={this.hanldeChange}
+                                  ref="textarea"
+                                  defaultValue={this.state.value}
+                        ></textarea>
+
+                        <h1>{this.state.value}</h1>
+                    </div>);
+        }
+    })
+
+    ReactDOM.render(<ShowEdior/>, document.getElementById('example'));
+
+
+</script>
+
+
+</body>
+</html>
